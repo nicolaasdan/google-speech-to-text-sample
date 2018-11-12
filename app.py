@@ -15,7 +15,10 @@ os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = credential_path
 
 @app.route('/', methods=['POST', 'GET'])
 def upload():
-
+	'''
+	Upload method uploads a local audio file into the folder 'app/audiofiles'
+	Then the file is uploaded to google cloud storage and deleted in the folder 'app/audiofiles'.
+	'''
 	target = os.path.join(APP_ROOT, 'audiofiles/')
 
 	#if folder does not yet exist, make folder
@@ -35,7 +38,10 @@ def upload():
 
 @app.route("/translation")
 def translation():
-
+	'''
+	method takes the audio file uploaded onto google cloud storage and transcribes the files
+	by sending the file to the google speech to text api. The transcription is returned and passed in the template.
+	'''
 	transcription = transcribe.transcribe_gcs("gs://audiobestanden-nicolaasdanneels/uploadedFile.flac")
 	return render_template('index.html', transcription=transcription)
 
